@@ -60,6 +60,15 @@ def validarInteiroLimite(min, max):
             print('\nInforme apenas números.')
 
 def criarlista():
+    """
+    Recebe uma entrada e cria uma lista aleatória com o tamanho dessa entrada, caso válida. Cria também um arquivo lista.txt que recebe essa lista, no formato 'elemento,elemento,elemento'.
+    
+    * Parameters:
+        None
+    * Returns:
+        lista: O conteúdo do arquivo lista.txt em formato de lista
+    """
+
     print('Para gerar uma nova lista, escolha o tamanho entre as opções:')
     print('1. 1.000 elementos\n2. 5.000 elementos\n3. 10.000 elementos\n4. 25.000 elementos\n5. 50.000 elementos\n')
 
@@ -84,6 +93,15 @@ def criarlista():
     return lista
 
 def carregarLista():
+    """
+    Carrega o arquivo lista.txt e transforma seu conteúdo em uma lista, caso haja conteúdo.
+    
+    * Parameters:
+        None
+    * Returns:
+        O conteúdo do arquivo lista.txt em formato de lista
+    """
+
     if not os.path.exists('lista.txt'):
         return []
     
@@ -96,6 +114,18 @@ def carregarLista():
         return list(map(int, conteudo.split(',')))
 
 def mediaDeExecucao(n, sort, tempo):
+    """
+    Executa o método sort respectivo mais 2 vezes e calcula a média desse tempo de ordenação junto ao tempo de ordenação da lista original.
+    
+    * Parameters:
+        n: tamanho da lista original ordenada
+        sort: método de ordenação
+        tempo: tempo de ordenação da lista original ordenada
+
+    * Returns:
+        media: média dos tempos de execução da primeira execução e das outras 2, realizadas com listas diferentes.
+    """
+
     soma = tempo
     
     for _ in range(2):
@@ -107,9 +137,18 @@ def mediaDeExecucao(n, sort, tempo):
     media = soma/3
 
     return media
-        
 
 def gerarGrafico(sorts):
+    """
+    Gera um gráfico comparando o tempo de ordenação dos sorts e salva em uma imagem relatorio-sorts.png.
+    
+    * Parameters:
+        sorts: lista de dicionários, os quais precisam conter nome com valor string e tempo com valor float
+
+    * Returns:
+        None
+    """
+
     nomes = [(sort["nome"].capitalize()+' Sort') for sort in sorts]
     tempos = [sort["tempo"] for sort in sorts]
 
@@ -131,6 +170,16 @@ def gerarGrafico(sorts):
     plt.close()
 
 def imprimirRelatorio(lista, sort):
+    """
+    Executa o sort na lista respectiva e imprime as listas e tempos de ordenação. Além disso, cria um arquivo lista-{sort}-sorted.txt contendo a lista ordenada pelo respectivo sort.
+    
+    * Parameters:
+        lista: uma lista de inteiros
+        sort: um método de sort
+    * Returns:
+        None
+    """
+
     limpar()
     print('------------------------------------------------')
     print('RESULTADOS DO SORT')
@@ -163,6 +212,15 @@ def imprimirRelatorio(lista, sort):
     voltar()
 
 def imprimirRelCompleto(lista):
+    """
+    Executa os 4 sorts e imprime as listas e tempos de ordenação de cada um.
+    
+    * Parameters:
+        lista: uma lista de inteiros
+    * Returns:
+        None
+    """
+
     limpar()
     print('------------------------------------------------')
     print('RELATÓRIO DE SORTS')
@@ -215,7 +273,12 @@ def imprimirRelCompleto(lista):
     voltar()
 
 def bubbleSort(lista):
-    '''Ordena uma lista usando o algoritimo Bubble Sort'''
+    """Ordena uma lista usando o algoritimo Bubble Sort
+    * Parameters:
+        lista: uma lista de inteiros
+    * Returns:
+        None
+    """
     
     for i in range(len(lista)):
         for j in range(len(lista)-i-1):
@@ -223,7 +286,12 @@ def bubbleSort(lista):
                 lista[j], lista[j+1] = lista[j+1], lista[j]
 
 def selectionSort(lista):
-    '''Ordena uma lista usando o algoritimo Selection Sort'''
+    """Ordena uma lista usando o algoritimo Selection Sort
+    * Parameters:
+        lista: uma lista de inteiros
+    * Returns:
+        None
+    """
     tam = len(lista)
 
     for i in range(tam):
@@ -236,7 +304,12 @@ def selectionSort(lista):
         lista[i], lista[aux] = lista[aux], lista[i]
 
 def insertionSort(lista):
-    '''Ordena uma lista usando o algoritimo Insertion Sort'''
+    """Ordena uma lista usando o algoritimo Insertion Sort
+    * Parameters:
+        lista: uma lista de inteiros
+    * Returns:
+        None
+    """
 
     tam = len(lista)
     
@@ -254,6 +327,10 @@ def mergeSort(lista):
     """
     Algoritmo Merge Sort - Ordenação por intercalação (in-place)
     Baseado no seu código funcional.
+    * Parameters:
+        lista: uma lista de inteiros
+    * Returns:
+        None
     """
 
     if len(lista) > 1:
@@ -289,6 +366,15 @@ def mergeSort(lista):
             k+=1
 
 def menu():
+    """
+    Menu principal da aplicação, recebe uma entrada e executa o método rescolhido.
+    
+    * Parameters:
+        None
+    * Returns:
+        None
+    """
+
     limpar()
     print('------------------------------------------------')
     print('ALGORITMOS DE SORTS')
@@ -327,6 +413,15 @@ def menu():
             return
 
 def main():
+    """
+    Metódo principal.
+    
+    * Parameters:
+        None
+    * Returns:
+        None
+    """
+
     limpar()
     print('------------------------------------------------')
     print('PROGRAMA DE TESTE DE SORTS')
