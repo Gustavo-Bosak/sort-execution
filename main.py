@@ -32,9 +32,22 @@ def validarInteiroLimite(min, max):
             print('\nInforme apenas números.')
 
 def criarlista():
-    print('Para gerar uma nova lista, informe a quantidade de elementos, com máximo de 50.000. (Apenas os números, exemplo: 10000).')
+    print('Para gerar uma nova lista, escolha o tamanho entre as opções:')
+    print('1. 1.000 elementos\n2. 5.000 elementos\n3. 10.000 elementos\n4. 25.000 elementos\n5. 50.000 elementos\n')
 
-    n = validarInteiroLimite(1, 50000)
+    escolha = validarInteiroLimite(1, 5)
+    match escolha:
+        case 1:
+            n = 1000
+        case 2:
+            n = 5000
+        case 3:
+            n = 10000
+        case 4:
+            n = 25000
+        case 5:
+            n = 50000
+
     lista = [random.randint(0, 9999) for _ in range(n)]
 
     with open('lista.txt', 'w') as file:
@@ -76,13 +89,15 @@ def gerarGrafico(sorts):
     plt.close()
 
 def imprimirRelatorio(lista, sort):
+    print('------------------------------------------------')
+    print('\nRESULTADOS DO SORT')
+    print('------------------------------------------------')
+    
     limpar()
     start = time.time()
     sortLista = sort(lista)
     stop = time.time()
 
-    print('\nRESULTADOS DO SORT')
-    print('------------------------------------------------')
     if len(lista)> 20:
         print('- Lista original: ', str(lista[:10]).replace(']', ''), '...', str(lista[-10:]).replace('[', ''))
         print('- Lista ordenada: ', str(sortLista[:10]).replace(']', ''), '...', str(sortLista[-10:]).replace('[', ''))
@@ -135,12 +150,12 @@ def imprimirRelCompleto(lista):
         stop = time.time()
         sort['tempo'] = stop - start
 
-        print(f'Tempo de ordenação do {sort["nome"]}: {sort["tempo"]:3f} segundos')
+        print(f'Tempo de ordenação do {sort["nome"]}: {sort["tempo"]:.3f} segundos')
 
     gerarGrafico(sorts)
 
     print('------------------------------------------------')
-    print('\nUm arquivo de imagem foi gerado com representação gráfica do tempo de ordenação dos sorts.')
+    print('\nUm arquivo de imagem foi gerado com comparação gráfica do tempo de ordenação dos sorts.')
 
     voltar()
 
