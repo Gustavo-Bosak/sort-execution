@@ -166,29 +166,80 @@ def imprimirRelCompleto(lista):
     voltar()
 
 def bubbleSort(lista):
-    bubbleLista = lista.copy()
+    '''Ordena uma lista usando o algoritimo Bubble Sort'''
     
-    for i in range(len(bubbleLista)):
-        for j in range(len(bubbleLista)-i-1):
-            if bubbleLista[j] > bubbleLista[j+1]:
-                bubbleLista[j], bubbleLista[j+1] = bubbleLista[j+1], bubbleLista[j]
-
-    return bubbleLista
+    for i in range(len(lista)):
+        for j in range(len(lista)-i-1):
+            if lista[j] > lista[j+1]:
+                lista[j], lista[j+1] = lista[j+1], lista[j]
 
 def selectionSort(lista):
-    selectionLista = lista.copy()
-    # as lógicas aqui, baseadas nessa lista copiada
-    return selectionLista
+    '''Ordena uma lista usando o algoritimo Selection Sort'''
+    tam = len(lista)
+
+    for i in range(tam):
+        aux = i
+
+        for j in range(i+1, tam):
+            if lista[j] < lista[aux]:
+                aux = j
+
+        lista[i], lista[aux] = lista[aux], lista[i]
+
 
 def insertionSort(lista):
-    insertionLista = lista.copy()
-    # as lógicas aqui, baseadas nessa lista copiada
-    return insertionLista
+    '''Ordena uma lista usando o algoritimo Insertion Sort'''
+
+    tam = len(lista)
+    
+    for i in range(1,tam):
+        pivo = lista[i]
+        
+        j = i-1
+
+        while j >= 0 and pivo < lista[j]:
+            lista[j+1] = lista[j]
+            j-=1
+        lista[j+1] = pivo   
+
 
 def mergeSort(lista):
-    mergeLista = lista.copy()
-    # as lógicas aqui, baseadas nessa lista copiada
-    return mergeLista
+    """
+    Algoritmo Merge Sort - Ordenação por intercalação (in-place)
+    Baseado no seu código funcional.
+    """
+
+    if len(lista) > 1:
+
+        meio = len(lista) // 2
+
+        L = lista[:meio] #Left 
+        R = lista[meio:] #Right
+
+        mergeSort(L) 
+        mergeSort(R)
+
+        #Variaveis de controle
+        i=j=k=0
+
+        while i<len(L) and j<len(R):
+            if L[i] <= R[j]:
+                lista[k] = L[i]
+                i+=1
+            else:
+                lista[k] = R[j]
+                j+=1
+            k+=1
+
+        while i<len(L):
+            lista[k] = L[i]
+            i+=1
+            k+=1
+
+        while j<len(R):
+            lista[k] = R[j]
+            j+=1
+            k+=1
 
 def menu():
     limpar()
