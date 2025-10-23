@@ -89,27 +89,28 @@ def gerarGrafico(sorts):
     plt.close()
 
 def imprimirRelatorio(lista, sort):
+    limpar()
     print('------------------------------------------------')
     print('\nRESULTADOS DO SORT')
     print('------------------------------------------------')
     
-    limpar()
+    copia = lista.copy()
     start = time.time()
-    sortLista = sort(lista)
+    sort(copia)
     stop = time.time()
 
     if len(lista)> 20:
         print('- Lista original: ', str(lista[:10]).replace(']', ''), '...', str(lista[-10:]).replace('[', ''))
-        print('- Lista ordenada: ', str(sortLista[:10]).replace(']', ''), '...', str(sortLista[-10:]).replace('[', ''))
+        print('- Lista ordenada: ', str(copia[:10]).replace(']', ''), '...', str(copia[-10:]).replace('[', ''))
 
     else:
         print('- Lista original: ', lista)
-        print('- Lista ordenada: ', sortLista)
+        print('- Lista ordenada: ', copia)
 
     print(f'- Tempo de ordenação: {(stop - start):.3f} segundos')
 
     with open(f'lista-{(sort.__name__).replace('Sort', '-sorted')}.txt', 'w') as file:
-        file.write(','.join(map(str, sortLista)))
+        file.write(','.join(map(str, copia)))
 
     print('------------------------------------------------')
     print('\nUm arquivo com a lista ordenada completa foi gerado.')
@@ -125,28 +126,33 @@ def imprimirRelCompleto(lista):
         {
             "nome": "bubble",
             "metodo": bubbleSort,
-            "tempo": 0
+            "tempo": 0,
+            "lista_base": []
         },
         {
             "nome": "selection",
             "metodo": selectionSort,
-            "tempo": 0
+            "tempo": 0,
+            "lista_base": []
         },
         {
             "nome": "insertion",
             "metodo": insertionSort,
-            "tempo": 0
+            "tempo": 0,
+            "lista_base": []
         },
         {
             "nome": "merge",
             "metodo": mergeSort,
-            "tempo": 0
+            "tempo": 0,
+            "lista_base": []
         }
     ]
 
     for sort in sorts:
+        sort['lista'] = lista.copy()
         start = time.time()
-        sort['metodo'](lista)
+        sort['metodo'](sort['lista'])
         stop = time.time()
         sort['tempo'] = stop - start
 
