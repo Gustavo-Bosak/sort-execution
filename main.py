@@ -31,9 +31,9 @@ def validarInteiroLimite(min, max):
             print('\nInforme apenas números.')
 
 def criarlista():
-    print('Para gerar uma nova lista, informe a quantidade de elementos, com máximo de 900.000. (Apenas os números, exemplo: 10000).')
+    print('Para gerar uma nova lista, informe a quantidade de elementos, com máximo de 50.000. (Apenas os números, exemplo: 10000).')
 
-    n = validarInteiroLimite(1, 900000)
+    n = validarInteiroLimite(1, 50000)
     lista = [random.randint(0, 9999) for _ in range(n)]
 
     with open('lista.txt', 'w') as file:
@@ -147,7 +147,9 @@ def menu():
             imprimirRelCompleto(lista)
 
         case 6:
-            main()
+            limpar()
+            lista = criarlista()
+            voltar()
 
         case 7:
             print('------------------------------------------------')
@@ -160,25 +162,29 @@ def main():
     print('------------------------------------------------')
     print('PROGRAMA DE TESTE DE SORTS')
     print('------------------------------------------------')
-    print('Precisamos definir uma lista para testagem.')
+    print('Precisamos definir uma lista para testagem.', end=' ')
     
     listaArquivo = carregarLista()
     if listaArquivo:
-        print('Foi encontrado um arquivo lista.txt com dados.')
-        print('1. Usar a lista existente\n2. Gerar uma nova lista\n3. Encerrar programa')
+        print('Já existe uma lista para ser ordenada Deseja:')
+        print('1. Gerar uma nova lista \n2. Continuar com a lista anterior\n3. Encerrar programa')
         escolha = validarInteiroLimite(1, 3)
-        if escolha == 1:
-            pass
-        elif escolha == 2:
-            criarlista()
-        elif escolha == 3:
-            print('------------------------------------------------')
-            print('PROGRAMA FINALIZADO')
-            print('------------------------------------------------')
-            return
+        
+        match escolha:
+            case 1:
+                criarlista()
+            
+            case 2:
+                pass
+            
+            case 3:
+                print('------------------------------------------------')
+                print('PROGRAMA FINALIZADO')
+                print('------------------------------------------------')
+                return
 
     else:
-        print('Nenhum arquivo lista.txt válido encontrado. Criando nova lista...')
+        print('Será necessário gerar uma lista.')
         criarlista()
 
     menu()
