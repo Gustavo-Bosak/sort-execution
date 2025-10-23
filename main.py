@@ -4,18 +4,46 @@ import random
 import matplotlib.pyplot as plt
 
 def limpar():
+    """
+    Limpa o terminal, alternando comando dependendo do sistema, 'cls' para nt (Windows) e 'clear' para outros.
+    
+    * Parameters:
+        None
+    * Returns:
+        None
+    """
+
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
 
 def voltar():
+    """
+    Exibe uma mensagem e retorna ao menu após qualquer entrada, para evitar sobescrever qualquer output anterior.
+    
+    * Parameters:
+        None
+    * Returns:
+        None
+    """
+
     print('\n------------------------------------------------')
     print('Voltando ao menu. Aperte qualquer tecla para continuar')
     input('')
     menu()
 
 def validarInteiroLimite(min, max):
+    """
+    Recebe uma entrada e valida se ela é um número inteiro dentro do limite.
+    
+    * Parameters:
+        min: inteiro representando o valor mínimo aceitável
+        max: inteiro representando o valor máximo aceitável
+    * Returns:
+        entry: entrada do usuário, caso seja válida
+    """
+
     while True:
         entry = input('R: ')
 
@@ -67,6 +95,20 @@ def carregarLista():
         
         return list(map(int, conteudo.split(',')))
 
+def mediaDeExecucao(n, sort, tempo):
+    soma = tempo
+    
+    for _ in range(2):
+        start = time.time()
+        sort([random.randint(0, 9999) for _ in range(n)])
+        stop = time.time()
+        soma += (stop - start)
+    
+    media = soma/3
+
+    return media
+        
+
 def gerarGrafico(sorts):
     nomes = [(sort["nome"].capitalize()+' Sort') for sort in sorts]
     tempos = [sort["tempo"] for sort in sorts]
@@ -91,13 +133,16 @@ def gerarGrafico(sorts):
 def imprimirRelatorio(lista, sort):
     limpar()
     print('------------------------------------------------')
-    print('\nRESULTADOS DO SORT')
+    print('RESULTADOS DO SORT')
     print('------------------------------------------------')
-    
+
     copia = lista.copy()
     start = time.time()
     sort(copia)
     stop = time.time()
+    tempo = stop - start
+
+    media = mediaDeExecucao(len(lista), sort, tempo)
 
     if len(lista)> 20:
         print('- Lista original: ', str(lista[:10]).replace(']', ''), '...', str(lista[-10:]).replace('[', ''))
@@ -107,7 +152,8 @@ def imprimirRelatorio(lista, sort):
         print('- Lista original: ', lista)
         print('- Lista ordenada: ', copia)
 
-    print(f'- Tempo de ordenação: {(stop - start):.3f} segundos')
+    print(f'\n- Tempo de ordenação dessa lista: {(tempo):.3f} segundos')
+    print(f'- Tempo de ordenação média após teste feito 3 vezes com listas diferentes do mesmo tamanho: {(media):.3f} segundos')
 
     with open(f'lista-{(sort.__name__).replace('Sort', '-sorted')}.txt', 'w') as file:
         file.write(','.join(map(str, copia)))
@@ -156,7 +202,10 @@ def imprimirRelCompleto(lista):
         stop = time.time()
         sort['tempo'] = stop - start
 
-        print(f'Tempo de ordenação do {sort["nome"]}: {sort["tempo"]:.3f} segundos')
+        media = mediaDeExecucao(len(lista), sort['metodo'], sort['tempo'])
+
+        print(f'- Tempo de ordenação do {sort["nome"]}: {sort["tempo"]:.3f} segundos')
+        print(f'- Tempo de ordenação média após teste feito 3 vezes com listas diferentes do mesmo tamanho: {(media):.3f} segundos\n')
 
     gerarGrafico(sorts)
 
@@ -186,7 +235,6 @@ def selectionSort(lista):
 
         lista[i], lista[aux] = lista[aux], lista[i]
 
-
 def insertionSort(lista):
     '''Ordena uma lista usando o algoritimo Insertion Sort'''
 
@@ -201,7 +249,6 @@ def insertionSort(lista):
             lista[j+1] = lista[j]
             j-=1
         lista[j+1] = pivo   
-
 
 def mergeSort(lista):
     """
@@ -294,6 +341,7 @@ def main():
         
         match escolha:
             case 1:
+                limpar()
                 criarlista()
             
             case 2:
