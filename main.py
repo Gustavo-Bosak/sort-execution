@@ -1,6 +1,7 @@
 import os
 import time
 import random
+import matplotlib.pyplot as plt
 
 def limpar():
     if os.name == 'nt':
@@ -53,6 +54,27 @@ def carregarLista():
         
         return list(map(int, conteudo.split(',')))
 
+def gerarGrafico(sorts):
+    nomes = [(sort["nome"].capitalize()+' Sort') for sort in sorts]
+    tempos = [sort["tempo"] for sort in sorts]
+
+    plt.style.use('seaborn-v0_8')
+    plt.figure(figsize=(10, 6))
+    barras = plt.bar(nomes, tempos)
+
+    plt.title('Comparação de Tempo de Execução dos Sorts', fontsize=14)
+    plt.xlabel('Algoritmos de Ordenação', fontsize=12)
+    plt.ylabel('Tempo (segundos)', fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+    for barra in barras:
+        altura = barra.get_height()
+        plt.text(barra.get_x() + barra.get_width()/2, altura + 0.01, f'{altura:.2f}', ha='center', va='bottom')
+
+    plt.tight_layout()
+    plt.savefig('relatorio-sorts.png')
+    plt.close()
+
 def imprimirRelatorio(lista, sort):
     limpar()
     start = time.time()
@@ -70,6 +92,12 @@ def imprimirRelatorio(lista, sort):
         print('- Lista ordenada: ', sortLista)
 
     print(f'- Tempo de ordenação: {(stop - start):.3f} segundos')
+
+    with open(f'lista-{(sort.__name__).replace('Sort', '-sorted')}.txt', 'w') as file:
+        file.write(','.join(map(str, sortLista)))
+
+    print('------------------------------------------------')
+    print('\nUm arquivo com a lista ordenada completa foi gerado.')
     voltar()
 
 def imprimirRelCompleto(lista):
@@ -79,18 +107,40 @@ def imprimirRelCompleto(lista):
     print('------------------------------------------------')
 
     sorts = [
-        ("bubble", bubbleSort ),
-        ("selection", selectionSort ),
-        ("insertion", insertionSort ),
-        ("merge", mergeSort ),
+        {
+            "nome": "bubble",
+            "metodo": bubbleSort,
+            "tempo": 0
+        },
+        {
+            "nome": "selection",
+            "metodo": selectionSort,
+            "tempo": 0
+        },
+        {
+            "nome": "insertion",
+            "metodo": insertionSort,
+            "tempo": 0
+        },
+        {
+            "nome": "merge",
+            "metodo": mergeSort,
+            "tempo": 0
+        }
     ]
 
-    for nome, metodo in sorts:
+    for sort in sorts:
         start = time.time()
-        metodo(lista)
+        sort['metodo'](lista)
         stop = time.time()
+        sort['tempo'] = stop - start
 
-        print(f'Tempo de ordenação do {nome} sort: {(stop - start):3f} segundos')
+        print(f'Tempo de ordenação do {sort["nome"]}: {sort["tempo"]:3f} segundos')
+
+    gerarGrafico(sorts)
+
+    print('------------------------------------------------')
+    print('\nUm arquivo de imagem foi gerado com representação gráfica do tempo de ordenação dos sorts.')
 
     voltar()
 
