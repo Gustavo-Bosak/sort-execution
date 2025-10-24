@@ -1,3 +1,16 @@
+"""
+Integrantes:
+
+Felipe Ferrete Soares Lemes 
+RM562999 
+
+Gustavo Bosak Santos 
+RM566315 
+
+Nikolas Henrique de Souza Lemes Brisola 
+RM564371 
+"""
+
 import os
 import time
 import random
@@ -204,7 +217,7 @@ def imprimirRelatorio(lista, sort):
     print(f'\n- Tempo de ordenação dessa lista: {(tempo):.3f} segundos')
     print(f'- Tempo de ordenação média após teste feito 3 vezes com listas diferentes do mesmo tamanho: {(media):.3f} segundos')
 
-    with open(f'lista-{(sort.__name__).replace('Sort', '-sorted')}.txt', 'w') as file:
+    with open(f'lista-{(sort.__name__).replace("Sort", "-sorted")}.txt', 'w') as file:
         file.write(','.join(map(str, copia)))
 
     print('------------------------------------------------')
